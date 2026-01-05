@@ -1,0 +1,63 @@
+# dnsctl configuration file (spec section 6)
+# Path: /etc/dnsctl/config.yaml
+# Permissions: 0640 root:bind (or root:dnsctl)
+
+# BIND configuration (spec 6.1)
+bind:
+  rndc_path: /usr/sbin/rndc          # Path to rndc binary
+  rndc_conf: /etc/bind/rndc.conf     # Path to rndc.conf
+  view: ""                           # Empty means default view
+  dns_addr: 127.0.0.1                # DNS server address for updates
+  dns_port: 53                       # DNS server port
+  tcp_updates: true                  # Use TCP for updates by default
+
+# Catalog zone configuration
+catalog:
+  zone: catalog.example.             # FQDN with trailing dot
+  schema_version: 2                  # 1 or 2 (must match your BIND behavior)
+  label_algorithm: sha1-wire         # Catalog member label algorithm
+
+# Zone management configuration
+zones:
+  dir: /var/lib/dnsctl/zones         # Zone file directory
+  file_extension: zone               # Zone file extension
+  file_owner: bind                   # Zone file owner
+  file_group: bind                   # Zone file group
+  default_notify: true               # Default notify setting
+  dnssec_policy: default             # DNSSEC policy to use
+  inline_signing: true               # Enable inline signing
+
+  # Update permissions for member zones (one of these models)
+  update_mode: allow-update           # allow-update | update-policy
+  tsig_key_name: dnsctl-updater.     # Key name as used in BIND
+  update_policy_grant: zonesub ANY   # Only for update-policy mode
+
+# TSIG authentication
+tsig:
+  name: dnsctl-updater.              # TSIG key name
+  algorithm: hmac-sha256             # TSIG algorithm
+  secret_file: /etc/dnsctl/tsig.secret  # Path to TSIG secret file (0600)
+
+# Security policy
+policy:
+  allowed_rrtypes:                   # Allowed RR types for updates
+    - A
+    - AAAA
+    - CNAME
+    - TXT
+    - MX
+    - SRV
+    - CAA
+  disallow_apex_cname: true          # Reject CNAME at zone apex
+  disallow_ns_updates: true          # Reject NS record updates
+  max_ttl: 86400                     # Maximum TTL (24 hours)
+  min_ttl: 30                        # Minimum TTL (30 seconds)
+
+# Locking configuration
+locking:
+  dir: /run/dnsctl/locks             # Lock file directory
+
+# Logging configuration
+logging:
+  audit_jsonl: /var/log/dnsctl/audit.jsonl  # Optional JSONL audit log path
+  include_actor: true                # Include actor in logs
