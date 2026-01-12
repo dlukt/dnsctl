@@ -1,3 +1,4 @@
+// Package update provides RFC2136 dynamic DNS update functionality with TSIG authentication.
 package update
 
 import (

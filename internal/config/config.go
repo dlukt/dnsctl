@@ -1,3 +1,4 @@
+// Package config handles loading and validation of dnsctl configuration files.
 package config
 
 import (

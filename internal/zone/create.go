@@ -1,3 +1,4 @@
+// Package zone provides zone lifecycle management for creating, deleting, and querying DNS zones.
 package zone
 
 import (

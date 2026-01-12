@@ -94,7 +94,7 @@ func (l *Logger) Debug(msg string) {
 	}
 }
 
-// log writes a structured log entry to stderr
+// Log writes a structured log entry to stderr with the specified level and message.
 func (l *Logger) Log(level, msg string) {
 	l.log(level, msg)
 }
@@ -165,7 +165,7 @@ func (l *Logger) WriteAudit(result *Result) {
 		return
 	}
 
-	l.auditFile.Write(append(data, '\n'))
+	_, _ = l.auditFile.Write(append(data, '\n'))
 }
 
 // Close closes the audit file if open
@@ -208,8 +208,8 @@ func NewResult(op string, requestID string) *Result {
 // NewErrorResult creates a new error result
 func NewErrorResult(op string, requestID string, exitCode int, message string, details string) *Result {
 	return &Result{
-		OK:   false,
-		Op:   op,
+		OK:        false,
+		Op:        op,
 		RequestID: requestID,
 		Error: &Error{
 			Code:    exitCode,

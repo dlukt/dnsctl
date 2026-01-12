@@ -1,3 +1,4 @@
+// Package bind provides an interface to BIND's rndc command for zone management.
 package bind
 
 import (
@@ -8,6 +9,9 @@ import (
 	"strings"
 	"time"
 )
+
+// zoneBlockPattern matches the start of a BIND zone configuration block
+var zoneBlockPattern = regexp.MustCompile(`^zone\s+["']?[\w.-]+["']?\s*\{`)
 
 // RNDCClient provides an interface to BIND's RNDC command
 type RNDCClient struct {
@@ -206,7 +210,7 @@ func ParseZoneConfig(output string) map[string]string {
 		line = strings.TrimSpace(line)
 
 		// Look for zone "example.com" { pattern
-		if matched, _ := regexp.MatchString(`^zone\s+["']?[\w.-]+["']?\s*\{`, line); matched {
+		if zoneBlockPattern.MatchString(line) {
 			inZone = true
 			continue
 		}

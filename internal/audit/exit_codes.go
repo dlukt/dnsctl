@@ -1,3 +1,4 @@
+// Package audit provides structured logging, result formatting, and exit code definitions for dnsctl operations.
 package audit
 
 // Exit codes as per spec 7.2

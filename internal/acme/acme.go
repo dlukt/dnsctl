@@ -1,3 +1,4 @@
+// Package acme provides ACME DNS-01 challenge handling for automated certificate issuance.
 package acme
 
 import (

@@ -1,3 +1,4 @@
+// Package ssh provides SSH forced-command mode support for secure remote dnsctl access.
 package ssh
 
 import (

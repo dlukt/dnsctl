@@ -167,9 +167,7 @@ func dnsLabels(name string) []string {
 	name = strings.TrimSpace(name)
 
 	// Remove trailing dot
-	if strings.HasSuffix(name, ".") {
-		name = name[:len(name)-1]
-	}
+	name = strings.TrimSuffix(name, ".")
 
 	if name == "" {
 		return []string{}
